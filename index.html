@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Test Case Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-inner">
+      <h1>🧪 Test Case Generator</h1>
+      <p class="subtitle">Bantu QA menyusun rancangan kasus uji dengan cepat</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- NOTICE -->
+    <div class="notice" role="note">
+      <strong>⚠️ Perhatian:</strong> Generator ini menggunakan <em>aturan berbasis pola sederhana</em>.
+      Hasil yang dihasilkan merupakan <strong>rancangan awal</strong> dan <strong>wajib ditinjau ulang oleh QA</strong>
+      sebelum digunakan. Tidak menggantikan analisis dan keputusan profesional.
+    </div>
+
+    <!-- FORM -->
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">📋 Informasi Fitur</h2>
+      <form id="generatorForm" novalidate>
+        <div class="form-group">
+          <label for="featureName">Nama Fitur <span class="required">*</span></label>
+          <input
+            type="text"
+            id="featureName"
+            placeholder="Contoh: Login Pengguna, Tambah Produk, Reset Password"
+            maxlength="100"
+            autocomplete="off"
+          />
+          <span class="field-error" id="featureNameError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="featureDesc">Deskripsi Kebutuhan <span class="required">*</span></label>
+          <textarea
+            id="featureDesc"
+            rows="4"
+            placeholder="Contoh: Pengguna dapat masuk ke sistem menggunakan email dan password yang terdaftar. Sistem memvalidasi format email, panjang password minimal 8 karakter, dan mengunci akun setelah 5 kali percobaan gagal."
+            maxlength="1000"
+          ></textarea>
+          <span class="char-count" id="descCharCount">0 / 1000</span>
+          <span class="field-error" id="featureDescError"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="featureExample">Contoh Kebutuhan / Skenario Utama <span class="optional">(opsional)</span></label>
+          <textarea
+            id="featureExample"
+            rows="3"
+            placeholder="Contoh: Pengguna memasukkan email 'user@example.com' dan password 'Pass1234', lalu sistem menampilkan halaman dashboard."
+            maxlength="500"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Jenis Kasus Uji yang Dihasilkan</label>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="tcType" value="positive" checked /> ✅ Positif
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="tcType" value="negative" checked /> ❌ Negatif
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="tcType" value="validation" checked /> 🔍 Validasi
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="tcType" value="boundary" checked /> 📏 Batas (Boundary)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" class="btn btn-secondary" id="exampleBtn">Gunakan contoh login</button>
+          <button type="submit" class="btn btn-primary" id="generateBtn">
+            ⚡ Generate Test Cases
+          </button>
+          <button type="button" class="btn btn-secondary" id="resetBtn">
+            🔄 Reset
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="card results-section hidden" id="resultsSection" aria-labelledby="results-title">
+      <div class="results-header">
+        <h2 id="results-title">📊 Hasil Test Case</h2>
+        <div class="results-meta" id="resultsMeta"></div>
+        <div class="results-actions">
+          <button class="btn btn-sm btn-outline" id="copyBtn" title="Salin semua ke clipboard">
+            📋 Salin Semua
+          </button>
+          <button class="btn btn-sm btn-success" id="downloadBtn" title="Unduh sebagai file CSV">
+            ⬇️ Unduh CSV
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrapper" role="region" aria-label="Tabel Kasus Uji" tabindex="0">
+        <table id="testCaseTable" class="tc-table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Jenis</th>
+              <th scope="col">Skenario</th>
+              <th scope="col">Langkah Uji</th>
+              <th scope="col">Hasil yang Diharapkan</th>
+            </tr>
+          </thead>
+          <tbody id="testCaseBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Test Case Generator — Dibuat untuk keperluan QA lokal. Tidak ada data yang dikirim ke server.</p>
+  </footer>
+
+  <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
